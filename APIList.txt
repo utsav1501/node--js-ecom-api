@@ -1,0 +1,44 @@
+//API lists
+products
+get products
+add a product
+Get one product
+Rate product
+filter Product
+Rate product
+Add items to cart
+Get items to cart
+Remove items from cart
+
+UserController
+signup-Email,Name,Password,TypeOfUser(customer,seller)
+signin-(Email,Password)
+
+
+{
+    _id:cat1,
+    averagePrice:5000
+}
+
+2.Find the average rating of a product
+
+db.products.aggregate([
+    //1 .Create documents for ratings
+    {
+        $unwind:"$ratings"
+    },
+    //2.Group rating per product and get average rating
+    {
+       $group:{
+        _id:"$name",
+        averageRating:{$avg:"ratings.rating"}
+       }
+    }
+])
+
+3.->db.products.aggregate([
+    // 1. Project name of product and countOFRating
+    {
+        $project:{name:1,countOFRating:{$size:"$ratings"}}
+    }
+])
